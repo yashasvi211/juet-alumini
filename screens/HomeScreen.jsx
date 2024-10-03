@@ -1,24 +1,38 @@
-// screens/HomeScreen.js
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet, TextInput } from 'react-native';
+import CustomCarousel from '../components/Carousel';
 
-const HomeScreen = () => (
-  <View style={styles.container}>
-    <Text style={styles.screenText}>Home</Text>
-  </View>
-);
+
+const HomeScreen = () => {
+  const carouselItems = [
+    require('../assets/carousel_img/1.png'),
+    require('../assets/carousel_img/2.png'),
+    require('../assets/carousel_img/3.png'),
+ 
+  ];
+
+  return (
+    <View style={styles.container}>
+       
+       
+      <CustomCarousel items={carouselItems} />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#f9f9f9',
   },
-  screenText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
+  searchBar: {
+    height: 50,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    marginVertical: 10, // Adjust margin to reduce space
+    marginHorizontal: 10, // Ensure proper side margins
   },
 });
 
