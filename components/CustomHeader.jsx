@@ -6,14 +6,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 const CustomHeader = () => {
   return (
     <View style={headerStyles.header}>
-      <View style={headerStyles.searchContainer}>
-        <Icon name="search" size={24} color="#888" style={headerStyles.searchIcon} />
-        <TextInput
-          style={headerStyles.searchBar}
-          placeholder="Search"
-          placeholderTextColor="#888"
-        />
-      </View>
+      <TextInput
+        style={headerStyles.searchBar}
+        placeholder="Search"
+        placeholderTextColor="#888"
+      />
       <TouchableOpacity style={headerStyles.postButton}>
         <Icon name="post-add" size={24} color="#ffffff" />
       </TouchableOpacity>
@@ -34,24 +31,14 @@ const headerStyles = StyleSheet.create({
     borderBottomColor: '#dddddd',
     elevation: 2, // Add shadow for better visibility
   },
-  searchContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderColor: '#dddddd',
-    borderWidth: 1,
-    borderRadius: 10, // Slightly round edges
-    backgroundColor: '#f5f5f5',
-    paddingHorizontal: 5, // Reduced padding to bring icon and text closer
-  },
   searchBar: {
     flex: 1,
     height: 40,
-    paddingHorizontal: 5, // Reduced padding for text input
-    backgroundColor: 'transparent', // Make the background transparent to show parent container's color
-  },
-  searchIcon: {
-    marginRight: 5, // Reduced space between icon and input
+    borderColor: '#dddddd',
+    borderWidth: 1,
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    backgroundColor: '#f5f5f5',
   },
   postButton: {
     marginLeft: 10,
