@@ -1,11 +1,11 @@
 // components/CustomHeader.js
 import React from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TextInput, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const CustomHeader = () => {
   return (
-    <View style={headerStyles.header}>
+    <View style={[headerStyles.header, { paddingTop: StatusBar.currentHeight }]}>
       <TextInput
         style={headerStyles.searchBar}
         placeholder="Search"
@@ -24,8 +24,7 @@ const headerStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 10,
-    paddingVertical: 5,
-    paddingTop: 40, // Add top padding to prevent overlap with the status bar
+    paddingBottom: 5, // Adjust padding bottom as needed
     backgroundColor: '#ffffff',
     borderBottomWidth: 1,
     borderBottomColor: '#dddddd',
@@ -35,7 +34,7 @@ const headerStyles = StyleSheet.create({
     flex: 1,
     height: 40,
     borderColor: '#dddddd',
-    marginBottom:9,
+    marginBottom: 9,
     borderWidth: 1,
     borderRadius: 20,
     paddingHorizontal: 10,

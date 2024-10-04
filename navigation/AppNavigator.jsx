@@ -18,11 +18,12 @@ const { width } = Dimensions.get('window');
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
-  const activeTabIndex = useSharedValue(0); // Index of the active tab
+  // Shared value to track the active tab index
+  const activeTabIndex = useSharedValue(0);
   const tabNames = ['Home', 'Network', 'Messages', 'Events', 'Profile'];
 
+  // Animated style for the indicator box
   const indicatorStyle = useAnimatedStyle(() => {
-    // Calculate the width of each tab based on the screen width
     const tabWidth = width / tabNames.length;
     return {
       transform: [
@@ -38,6 +39,7 @@ const AppNavigator = () => {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused }) => {
+            // Determine icon name based on the route
             let iconName;
             switch (route.name) {
               case 'Home':
@@ -90,7 +92,12 @@ const AppNavigator = () => {
           },
         })}
       >
-        <Tab.Screen name="Home" component={HomeScreen} options={{ header: () => <CustomHeader /> }} />
+        {/* Define each screen in the tab navigator */}
+        <Tab.Screen 
+          name="Home" 
+          children={() => <HomeScreen activeTabIndex={activeTabIndex} />} 
+          options={{ header: () => <CustomHeader /> }} 
+        />
         <Tab.Screen name="Network" component={NetworkScreen} options={{ header: () => <CustomHeader /> }} />
         <Tab.Screen name="Messages" component={MessagesScreen} options={{ header: () => <CustomHeader /> }} />
         <Tab.Screen name="Events" component={EventsScreen} options={{ header: () => <CustomHeader /> }} />

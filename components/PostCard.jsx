@@ -1,76 +1,71 @@
-import React from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
-import Carousel from '../components/Carousel';
-import PostCard from '../components/PostCard'; // Import your PostCard component
+    import React from 'react';
+    import { View, Text, Image, StyleSheet } from 'react-native';
 
-const HomeScreen = () => {
-    const items = [
-        require('../assets/carousel_img/1.png'),
-        require('../assets/carousel_img/8.jpg'), // 868*446
-        require('../assets/carousel_img/3.png'),
-    ];
+    const PostCard = ({ post }) => {
+        return (
+            <View style={styles.cardContainer}>
+                <View style={styles.userInfo}>
+                    <Image source={{ uri: post.userImage }} style={styles.userImage} />
+                    <View style={styles.userDetails}>
+                        <Text style={styles.userName}>{post.userName}</Text>
+                        <Text style={styles.userAbout}>{post.userAbout}</Text>
+                    </View>
+                </View>
+                <Text style={styles.postText}>{post.text}</Text>
+                {post.image && <Image source={{ uri: post.image }} style={styles.postImage} />}
+                <Text style={styles.postDate}>{post.date}</Text>
+            </View>
+        );
+    };
 
-    // Sample post data with images
-    const posts = [
-        {
-            id: '1',
-            userName: 'Aarav Sharma',
-            userImage: 'https://via.placeholder.com/100',
-            userAbout: 'Software Engineer at Tech Corp',
-            text: 'Excited to announce my new project!',
-            image: 'https://via.placeholder.com/600x300', // Image in the post
-            date: '2024-10-03 10:00 AM',
+    // Styles for the PostCard component
+    const styles = StyleSheet.create({
+        cardContainer: {
+            backgroundColor: '#fff',
+            borderRadius: 10,
+            elevation: 2,
+            marginVertical: 5, // Reduced margin for closer cards
+            padding: 10,
+            overflow: 'hidden',
         },
-        {
-            id: '2',
-            userName: 'Vivaan Singh',
-            userImage: 'https://via.placeholder.com/100',
-            userAbout: 'Product Manager at Innovate LLC',
-            text: 'Check out our latest product launch!',
-            image: 'https://via.placeholder.com/600x300', // Image in the post
-            date: '2024-10-02 02:15 PM',
+        userInfo: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 5,
         },
-        {
-            id: '3',
-            userName: 'Ayaan Gupta',
-            userImage: 'https://via.placeholder.com/100',
-            userAbout: 'Data Scientist at Analytics Co.',
-            text: 'Had a great time at the conference yesterday!',
-            image: 'https://via.placeholder.com/600x300', // Image in the post
-            date: '2024-10-01 08:30 AM',
+        userImage: {
+            width: 50,
+            height: 50,
+            borderRadius: 25,
+            marginRight: 10,
         },
-    ];
+        userDetails: {
+            flex: 1,
+        },
+        userName: {
+            fontSize: 16,
+            fontWeight: 'bold',
+        },
+        userAbout: {
+            fontSize: 14,
+            color: '#555',
+        },
+        postText: {
+            fontSize: 14,
+            marginVertical: 5,
+        },
+        postImage: {
+            width: '100%',
+            height: 200,
+            borderRadius: 5,
+            marginVertical: 10,
+            resizeMode: 'cover',
+        },
+        postDate: {
+            fontSize: 12,
+            color: '#999',
+            alignSelf: 'flex-end',
+        },
+    });
 
-    // Sort posts by date in descending order
-    const sortedPosts = posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    const renderPostCard = ({ item }) => (
-        <PostCard post={item} />
-    );
-
-    return (
-        <View style={styles.screenContainer}>
-            <Carousel items={items} />
-            <FlatList
-                data={sortedPosts}
-                renderItem={renderPostCard}
-                keyExtractor={item => item.id}
-                contentContainerStyle={styles.listContainer}
-                showsVerticalScrollIndicator={false} // Hide vertical scroll indicator
-            />
-        </View>
-    );
-};
-
-// Styles
-const styles = StyleSheet.create({
-    screenContainer: {
-        flex: 1,
-        backgroundColor: '#f9f9f9', // Added background color
-    },
-    listContainer: {
-        paddingBottom: 20, // Slight padding at the bottom
-    },
-});
-
-export default HomeScreen;
+    export default PostCard;
