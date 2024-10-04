@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, ScrollView, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, ScrollView, Image, StyleSheet, Dimensions } from 'react-native';
 
 const { width } = Dimensions.get('window');
-const ITEM_WIDTH = width * 0.9; // Use 90% of the screen width for each item
+const ITEM_WIDTH = width; // Each item takes full screen width
 
 const Carousel = ({ items }) => {
   const scrollViewRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  let scrollInterval;
+  const totalItems = items.length; // Get the total number of items
 
   // Update the current index based on the scroll position
   const onScroll = (event) => {
@@ -18,15 +18,18 @@ const Carousel = ({ items }) => {
 
   useEffect(() => {
     // Auto slide every 3 seconds
-    scrollInterval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
-      scrollViewRef.current.scrollTo({ x: ((currentIndex + 1) % items.length) * ITEM_WIDTH, animated: true });
+    const scrollInterval = setInterval(() => {
+      setCurrentIndex((prevIndex) => {
+        const nextIndex = (prevIndex + 1) % totalItems; // Cycle back to 0
+        scrollViewRef.current.scrollTo({ x: nextIndex * ITEM_WIDTH, animated: true });
+        return nextIndex; // Return the updated index
+      });
     }, 3000);
 
     return () => {
-      clearInterval(scrollInterval);
+      clearInterval(scrollInterval); // Cleanup on unmount
     };
-  }, [currentIndex, items.length]);
+  }, [totalItems]);
 
   return (
     <View style={styles.container}>
@@ -42,22 +45,10 @@ const Carousel = ({ items }) => {
       >
         {items.map((item, index) => (
           <View key={index} style={styles.item}>
-            <Image source={item} style={styles.image} resizeMode="cover" />
+            <Image source={item} style={styles.image} resizeMode="contain" />
           </View>
         ))}
       </ScrollView>
-
-      {/* Removed Pagination Dots */}
-      {/* <View style={styles.pagination}>
-        {items.map((_, index) => (
-          <TouchableOpacity key={index} onPress={() => {
-            setCurrentIndex(index);
-            scrollViewRef.current.scrollTo({ x: index * ITEM_WIDTH, animated: true });
-          }}>
-            <View style={[styles.dot, { backgroundColor: currentIndex === index ? '#000' : '#ccc' }]} />
-          </TouchableOpacity>
-        ))}
-      </View> */}
     </View>
   );
 };
@@ -65,40 +56,24 @@ const Carousel = ({ items }) => {
 const styles = StyleSheet.create({
   container: {
     height: 250,
-    marginTop: 6, // Increased margin from the top
-    marginHorizontal: 0, // Removed horizontal margin
+    marginTop: -12,
+    marginHorizontal: 0,
   },
   scrollView: {
     width: '100%',
   },
   scrollViewContent: {
-    alignItems: 'center', // Center items horizontally
+    alignItems: 'center',
   },
   item: {
     width: ITEM_WIDTH,
     height: '100%',
-    overflow: 'hidden', // Prevent overflow
     justifyContent: 'center',
     alignItems: 'center',
   },
   image: {
     width: '100%',
     height: '100%',
-  },
-  pagination: {
-    position: 'absolute',
-    bottom: 10,
-    left: 0,
-    right: 0,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  dot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    marginHorizontal: 6,
   },
 });
 
